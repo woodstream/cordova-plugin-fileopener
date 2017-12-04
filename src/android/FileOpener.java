@@ -92,7 +92,7 @@ public class FileOpener extends CordovaPlugin {
                     this.openFile(uri, extension, context, callbackContext);
                 } else {
                     try {
-                        this.downloadAndOpenFile(context, fileURL, callbackContext);
+                        this.downloadAndOpenFile(context, fileURL, args.getString(1), callbackContext);
                     } catch (UnsupportedEncodingException e) {
                         throw new RuntimeException(e);
                     }
@@ -107,7 +107,7 @@ public class FileOpener extends CordovaPlugin {
     private String getExtension(final JSONArray args, CallbackContext callbackContext) throws JSONException {
         JSONObject obj = new JSONObject();
         if (args.length() > 0) {
-            String url = args.getString(0);
+            String url = args.getString(1);
             if (url.lastIndexOf(".") > -1) {
                 String extension = url.substring(url.lastIndexOf("."));
                 if (hasMimeType(extension)) {
@@ -162,9 +162,10 @@ public class FileOpener extends CordovaPlugin {
         }
     }
 
-    private void downloadAndOpenFile(final Context context, final String fileUrl, final CallbackContext callbackContext) throws UnsupportedEncodingException {
-        final String filename = URLDecoder.decode(fileUrl.substring(fileUrl.lastIndexOf("/") + 1), "UTF-8");
-        final String extension = fileUrl.substring(fileUrl.lastIndexOf("."));
+    private void downloadAndOpenFile(final Context context, final String fileUrl, final  String filename, final CallbackContext callbackContext) throws UnsupportedEncodingException {
+//        final String filename = URLDecoder.decode(fileUrl.substring(fileUrl.lastIndexOf("/") + 1), "UTF-8");
+//        final String extension = fileUrl.substring(fileUrl.lastIndexOf("."));
+        final String extension = filename.substring(filename.lastIndexOf("."));
         final File tempFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename);
 
         if (tempFile.exists()) {

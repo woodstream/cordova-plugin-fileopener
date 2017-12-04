@@ -1,6 +1,6 @@
 cordova-plugin-fileopener
 =====
-
+修改：基于文件流的文件，由于没有扩展名，所以保存文件后没有扩展名，无法正确打开文件，现基于此，扩展适配支持手动输入文件扩展名的功能。（FileStream can not be opened success because no extension，now fixed it by manual input extension。）
 ---
 
 > Cordova plugin for android which allows you to download file in background and open it with the default application from your mobile.
