@@ -1,6 +1,6 @@
 cordova-plugin-fileopener
 =====
-修改：基于文件流的文件，由于没有扩展名，所以保存文件后没有扩展名，无法正确打开文件，现基于此，扩展适配支持手动输入文件扩展名的功能。（FileStream can not be opened success because no extension，now fixed it by manual input extension。）
+修改：基于文件流的文件，由于没有扩展名，所以保存文件后没有扩展名，无法正确打开文件，现基于此，扩展适配支持手动输入文件扩展名的功能。（FileStream can not be opened success because no extension，now fixed it by manual input optional extension）
 ---
 
 > Cordova plugin for android which allows you to download file in background and open it with the default application from your mobile.
@@ -12,7 +12,7 @@ cordova-plugin-fileopener
 Using the Cordova 3 Command-line Interface:
 
 ```
-cordova plugin add cordova-plugin-fileopener
+cordova plugin add https://github.com/woodstream/cordova-plugin-fileopener.git
 ```
 
 If you are not using the Cordova Command-line Interface, follow [Using Plugman to Manage Plugins](http://cordova.apache.org/docs/en/edge/plugin_ref_plugman.md.html).
@@ -43,7 +43,7 @@ Return if default application to open a file is set on the device.
 
 
 ```
-window.cordova.plugins.FileOpener.canOpenFile(FILE_URL, SUCCESS_CALLBACK, ERROR_CALLBACK);
+window.cordova.plugins.FileOpener.canOpenFile(FILE_URL, FILE_NAME, SUCCESS_CALLBACK, ERROR_CALLBACK);
 ```
 
 ###  Parameters
@@ -72,8 +72,8 @@ window.cordova.plugins.FileOpener.canOpenFile(FILE_URL, SUCCESS_CALLBACK, ERROR_
         alert('message: '  + error.message);
     }
 
-    window.cordova.plugins.FileOpener.canOpenFile("http://www.website.com/file.pdf", onSuccess, onError);
-    window.cordova.plugins.FileOpener.canOpenFile("file:///storage/emulated/0/Download/local_file.pdf", onSuccess, onError);
+    window.cordova.plugins.FileOpener.canOpenFile("http://www.website.com", "file.pdf", onSuccess, onError);
+    window.cordova.plugins.FileOpener.canOpenFile("file:///storage/emulated/0/Download/local_file.pdf", null, onSuccess, onError);
 
 ##  cordova.plugins.FileOpener.openFile
 
@@ -86,6 +86,8 @@ window.cordova.plugins.FileOpener.openFile(FILE_URL, SUCCESS_CALLBACK, ERROR_CAL
 ###  Parameters
 
 - FILE_URL: The file URL.
+
+- FILE_NAME: The file name with extension.
 
 - SUCCESS_CALLBACK: The callback that notify when action is finished.
 
@@ -108,8 +110,8 @@ window.cordova.plugins.FileOpener.openFile(FILE_URL, SUCCESS_CALLBACK, ERROR_CAL
         alert('message: ' + error.message);
     }
 
-    window.cordova.plugins.FileOpener.openFile("http://www.website.com/file.pdf", onSuccess, onError);
-    window.cordova.plugins.FileOpener.openFile("file:///storage/emulated/0/Download/local_file.pdf", onSuccess, onError);
+    window.cordova.plugins.FileOpener.openFile("http://www.website.com", "file.pdf", onSuccess, onError);
+    window.cordova.plugins.FileOpener.openFile("file:///storage/emulated/0/Download/local_file.pdf", "", onSuccess, onError);
 
 # License
 

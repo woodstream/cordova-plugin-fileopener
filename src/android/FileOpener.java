@@ -107,9 +107,9 @@ public class FileOpener extends CordovaPlugin {
     private String getExtension(final JSONArray args, CallbackContext callbackContext) throws JSONException {
         JSONObject obj = new JSONObject();
         if (args.length() > 0) {
-            String url = args.getString(1);
-            if (url.lastIndexOf(".") > -1) {
-                String extension = url.substring(url.lastIndexOf("."));
+            String fileName = args.getString(1);
+            if (fileName.lastIndexOf(".") > -1) {
+                String extension = fileName.substring(fileName.lastIndexOf("."));
                 if (hasMimeType(extension)) {
                     return extension;
                 } else {
@@ -118,7 +118,7 @@ public class FileOpener extends CordovaPlugin {
                     return null;
                 }
             } else {
-                obj.put("message", "This file :" + url + " has no extension");
+                obj.put("message", "This file :" + fileName + " has no extension");
                 callbackContext.error(obj);
                 return null;
             }
@@ -146,6 +146,11 @@ public class FileOpener extends CordovaPlugin {
     }
 
     private void openFile(Uri localUri, String extension, Context context, CallbackContext callbackContext) throws JSONException {
+        // 这是比较流氓的方法，绕过7.0的文件权限检查
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setDataAndType(localUri, getMimeType(extension));
